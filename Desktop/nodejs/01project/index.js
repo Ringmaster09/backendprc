@@ -1,7 +1,36 @@
 const express = require("express");
 const users = require("./MOCK_DATA.json");
 const app = express();
+const mongoose = require("mongoose");
 const PORT = 8000;
+
+//connection
+mongoose.connect('mongodb://127.0.0.1:27017/backend-practice')
+.then(()=>console.log("Mongodb connected"))
+.catch((err)=>console.log("Mongo error",err));
+//schema
+const userSchema=new mongoose.Schema({
+    firstName:{
+        type:String,
+        required:true,
+
+    },
+    lastName:{
+        type:String,
+    },
+    email:{
+        type:String,
+        required:true,
+        unique: true,
+    },
+    jobTitle:{
+        type:String,
+    },
+    gender:{
+        type:String,
+    },
+});
+const User=mongoose.model("user",userSchema);
 
 // ====== GLOBAL MIDDLEWARES ======
 app.use(express.json());
